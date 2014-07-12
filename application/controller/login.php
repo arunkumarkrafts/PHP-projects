@@ -11,9 +11,8 @@ class Login extends Controller
      * 
      */
     
-    public function index($login_successful)
+    public function index()
     {
-        //echo "login/index";
         require 'application/views/_templates/header.php';
         require 'application/views/login/index.php';
         require 'application/views/_templates/footer.php';  
@@ -30,15 +29,15 @@ class Login extends Controller
         // run the login() method in the login-model, put the result in $login_successful (true or false)
         $login_model = $this->loadModel('LoginModel');
         // perform the login method, put result (true or false) into $login_successful
-        $login_successful = $login_model->login();
+        $login_successful = $login_model->verify();
 
         // check login status
         if ($login_successful) {
             // if YES, then move user to dashboard/index (btw this is a browser-redirection, not a rendered view!)
-            header('location: ' . URL . 'group/index');
+            header('location: ' . URL . 'group/index/'.$_POST['inputUsername'].'/');
         } else {
             // if NO, then move user to login/index (login form) again
-            header('location: ' . URL . 'login/index/false');
+            header('location: ' . URL . 'login/');
         }
 
     }

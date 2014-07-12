@@ -7,39 +7,38 @@ class Group extends Controller
 {
     /**
      * PAGE: index
-     * This method handles what happens when you move to http://yourproject/login/index (which is the default page / home page)
+     * This method handles what happens when you move to http://yourproject/group/index (which is the default page / home page)
      * 
      */
-    public function index()
+    public function index($username)
     {
-        //echo "login/index";
+        $groupList = null;
+        $group_model = $this->loadModel('GroupModel');
+        $groups = $group_model->getAllGroups($username);
+        $i = 0;
+        foreach($groups as $group){
+                
+                $group = new GroupList($group->groupname);
+                $tasks = $group_model->getAllTasks($group->groupName);
+                foreach($tasks as $task){
+                    $group->tasklist[] = $task->taskname;
+                }
+                $groupList[] = $group;
+            }
         require 'application/views/_templates/header.php';
         require 'application/views/group/index.php';
         require 'application/views/_templates/footer.php';  
     }
-
-    /**
-     * PAGE: login
-     * this function validates the supplied username and the password and pass it on to the group model view
-     */
-    public function verify()
-    {
-        
-        // run the login() method in the login-model, put the result in $login_successful (true or false)
-        $login_model = $this->loadModel('LoginModel');
-        // perform the login method, put result (true or false) into $login_successful
-        $login_successful = $login_model->login();
-
-        // check login status
-        if ($login_successful) {
-            // if YES, then move user to dashboard/index (btw this is a browser-redirection, not a rendered view!)
-            header('location: ' . URL . 'group/index');
-        } else {
-            // if NO, then move user to login/index (login form) again
-            header('location: ' . URL . 'login/index');
-        }
-
-    } 
+ 
+}
+class Grouplist
+{
+    public $groupName;
+    public $tasklist;
+    function __construct($groupName){
+        $this->groupName = $groupName;
+    }
+    
 }
     
     

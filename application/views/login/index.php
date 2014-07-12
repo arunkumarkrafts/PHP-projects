@@ -1,9 +1,6 @@
 <div class="container">
     <div class="row">
-        <?php 
-if(!$login_successful){
-   echo '<h1>Invalid login</h1>';
-}?>
+
         </div>
     <div class="row">
         <div class="col-lg-3"></div>
