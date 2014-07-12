@@ -1,3 +1,4 @@
+
 <?php
 
 class Application
@@ -23,9 +24,10 @@ class Application
      */
     public function __construct()
     {
+       //$_GET['url'] ="login/index.php";
         // create array with URL parts in $url
+        //echo var_dump($_GET['url']);
         $this->splitUrl();
-
         // check for controller: does such a controller exist ?
         if (file_exists('./application/controller/' . $this->url_controller . '.php')) {
 
@@ -57,10 +59,10 @@ class Application
             }
         } else {
             // invalid URL, so simply show home/index
-            require './application/controller/home.php';
-            $home = new Home();
-            $home->index();
-        }
+            require './application/controller/login.php';
+            $login = new Login();
+            $login->index();
+       }
     }
 
     /**
@@ -69,7 +71,7 @@ class Application
     private function splitUrl()
     {
         if (isset($_GET['url'])) {
-
+            
             // split URL
             $url = rtrim($_GET['url'], '/');
             $url = filter_var($url, FILTER_SANITIZE_URL);
